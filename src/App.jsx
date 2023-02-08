@@ -9,9 +9,11 @@ function App () {
   const [wordCount, setWordCount] = useState(0);
   const [text, setText] = useState("");
   const textareaRef = useRef();
+  const initialTimer = timerInput;
 
   const timerStyle = {
-    color: timer <= 3 && "#970f0f"
+    backgroundColor: timer <= 3 && "#970f0f",
+    color: timer <= 3 && "#fff"
   };
 
   function inputTimer (time) {
@@ -38,9 +40,22 @@ function App () {
     setWordCount(pureText.length);
   }
   function handleStartBtn () {
-    setSwitchTime((prev) => !prev);
-    textareaRef.current.disabled = false;
-    textareaRef.current.focus();
+    if (timer != 0) {
+      setSwitchTime((prev) => !prev);
+      textareaRef.current.disabled = false;
+      textareaRef.current.focus();
+    }
+    else {
+      setTimer(initialTimer);
+      setWordCount(0);
+      setSwitchTime(true);
+    }
+
+  }
+  function btnText () {
+    if (timer === 0) return "start over";
+    else if (switchTime) return "stop";
+    else return "start";
   }
 
 
@@ -64,9 +79,9 @@ function App () {
         onChange={(e) => wordCounter(e.target.value)}
       />
       <h2>Time count down: <span style={timerStyle}>{timer}</span></h2>
-      <button className={switchTime ? "btn-hover-red" : ""} onClick={handleStartBtn}>{switchTime ? "stop" : "start"}</button>
+      <button className={switchTime ? "btn-hover-red" : ""} onClick={handleStartBtn}>{btnText()}</button>
       <h2>Word count: <span>{wordCount}</span> in {timerInput - timer} sec</h2>
-      <p>your speed per sec: <span>{(wordCount / timerInput).toFixed(2)}</span> words</p>
+      <p>your {timer != 0 && "instant"} speed per sec: <span>{(wordCount / (timerInput - timer)).toFixed(2)}</span> words</p>
     </div>
   );
 }
