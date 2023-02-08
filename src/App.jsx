@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App () {
@@ -8,6 +8,7 @@ function App () {
   const [switchTime, setSwitchTime] = useState(false);
   const [wordCount, setWordCount] = useState(0);
   const [text, setText] = useState("");
+  const textareaRef = useRef();
 
   const timerStyle = {
     color: timer <= 3 && "#970f0f"
@@ -36,6 +37,11 @@ function App () {
     const pureText = text.trim().split(" ");
     setWordCount(pureText.length);
   }
+  function handleStartBtn () {
+    setSwitchTime((prev) => !prev);
+    textareaRef.current.disabled = false;
+    textareaRef.current.focus();
+  }
 
 
   return (
@@ -50,6 +56,7 @@ function App () {
         disabled={switchTime}
         onChange={(e) => inputTimer(e.target.value)} />
       <textarea
+        ref={textareaRef}
         disabled={!switchTime}
         type="text"
         name="text"
@@ -57,7 +64,7 @@ function App () {
         onChange={(e) => wordCounter(e.target.value)}
       />
       <h2>Time count down: <span style={timerStyle}>{timer}</span></h2>
-      <button className={switchTime ? "btn-hover-red" : ""} onClick={() => setSwitchTime((prev) => !prev)}>{switchTime ? "stop" : "start"}</button>
+      <button className={switchTime ? "btn-hover-red" : ""} onClick={handleStartBtn}>{switchTime ? "stop" : "start"}</button>
       <h2>Word count: <span>{wordCount}</span> in {timerInput - timer} sec</h2>
       <p>your speed per sec: <span>{(wordCount / timerInput).toFixed(2)}</span> words</p>
     </div>
