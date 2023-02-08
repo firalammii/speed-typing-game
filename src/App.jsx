@@ -48,6 +48,7 @@ function App () {
     else {
       setTimer(initialTimer);
       setWordCount(0);
+      setText("");
       setSwitchTime(true);
     }
 
