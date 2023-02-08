@@ -41,7 +41,8 @@ function App () {
   return (
     <div className="App">
       <h1>How fast can you type</h1>
-      <p>type as much as you can in {timerInput} seconds, see your speed in words per {timerInput} seconds or set your own time here</p>
+      <pre>type as much as you can in {timerInput} seconds, see your speed in words per {timerInput} seconds
+        <br />or set your own time here</pre>
       <input
         name='timerInput'
         type="number"
